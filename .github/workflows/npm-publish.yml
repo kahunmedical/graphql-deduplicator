@@ -6,11 +6,14 @@ name: Node.js Package
 on:
   release:
     types: [created]
-
+  push:
+    branches:
+      - master
 jobs:
   publish-npm:
     needs: build
     runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
@@ -19,6 +22,10 @@ jobs:
           registry-url: https://npm.pkg.github.com
       - run: |
               npm build
+              git config user.name "kahunmedicaluser"
+              git config user.email "aws@kahunmedical.com"
+              npm version patch --force
+              git push origin
               npm publish
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
