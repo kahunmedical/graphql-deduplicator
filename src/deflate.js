@@ -6,7 +6,9 @@ type NodeType = Object | $ReadOnlyArray<NodeType>;
 const deflate = (node: NodeType, index: Object, path: $ReadOnlyArray<string>): NodeType => {
   if (Array.isArray(node)) {
     return node.map((childNode) => {
-      if (typeof childNode === 'string' || typeof childNode === 'number' || typeof childNode === 'boolean') {
+      if (!childNode) {
+        return childNode;
+      } else if (typeof childNode === 'string' || typeof childNode === 'number' || typeof childNode === 'boolean') {
         return childNode;
       } else {
         return deflate(childNode, index, path);
