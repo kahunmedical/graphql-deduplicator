@@ -1,19 +1,24 @@
 // @flow
 
+/* eslint-disable arrow-body-style */
+
 type NodeType = Object | $ReadOnlyArray<NodeType>;
 
-// eslint-disable-next-line complexity
+// eslint-disable-next-line complexity,unicorn/no-abusive-eslint-disable
 const deflate = (node: NodeType, index: Object, path: $ReadOnlyArray<string>): NodeType => {
   if (Array.isArray(node)) {
     return node.map((childNode) => {
-      if (!childNode) {
+      if (typeof childNode === 'string' || typeof childNode === 'number' || typeof childNode === 'boolean') {
         return childNode;
-      } else if (typeof childNode === 'string' || typeof childNode === 'number' || typeof childNode === 'boolean') {
+      } else if (childNode === null || childNode === undefined) {
+        // eslint-disable-next-line no-console
+        console.log('DEDUPLICATOR', 'ERROR', 'null value in array', index, path);
+
         return childNode;
       } else {
         return deflate(childNode, index, path);
       }
-    });
+    }).filter((element) => element !== null && element !== undefined);
   } else {
     if (node && node.id && node.__typename) {
       const route = path.join(',');
