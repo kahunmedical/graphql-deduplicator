@@ -21,7 +21,8 @@ jobs:
           node-version: 16
           registry-url: https://npm.pkg.github.com
       - run: |
-              npm build
+              npm install
+              npm run build
               git config user.name "kahunmedicaluser"
               git config user.email "aws@kahunmedical.com"
               npm version patch --force
