@@ -47,7 +47,7 @@
   ],
   "license": "BSD-3-Clause",
   "main": "./dist/index.js",
-  "name": "graphql-deduplicator",
+  "name": "@kahunmedical/graphql-deduplicator",
   "nyc": {
     "include": [
       "src/**/*.js"
